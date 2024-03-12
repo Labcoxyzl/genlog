@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Input Form</title>
     <style>
@@ -14,10 +12,60 @@
         .year-select {
             margin-left: 10px;
         }
+
+        .center-screen {
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            color: #ffffff;
+            background-color: #2d63c8;
+            font-size: 19px;
+            border: 3px solid #2dc854;
+            border-radius: 20px;
+            padding: 5px 15px;
+            letter-spacing: 3px;
+            cursor: pointer;
+            width: auto;
+        }
+
+        button:hover {
+            color: #2d63c8;
+            background-color: #ffffff;
+        }
+
+        /* Custom style for the reset button */
+        button[name="resetButton"] {
+            background-color: red;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            margin-right: 10px;
+        }
+
+        .input-group input[type="range"] {
+            margin-right: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 425px;
+            /* Adjust the width as needed */
+            margin-top: 1px;
+            /* Add margin for spacing */
+        }
     </style>
     <script>
-        function copyAllInputs() {
-            var date = getValue("date");
+        async function copyAllInputs() {
+            var date = new Date(getValue("date")).toLocaleDateString('en-sg', { day: "numeric", month: "long", year: "numeric" });
             var vehicle = getValue("vehicle");
             var fe1Month = document.getElementById("FE1Month").value;
             var fe1Year = document.getElementById("FE1Year").value;
@@ -51,13 +99,28 @@
             } else {
                 var fe1 = fe1Month + " " + fe1Year;
                 var fe2 = fe2Month + " " + fe2Year;
-                var copyText = date + "\n" + vehicle + "\n" + fe1 + "\n" + fe2 + "\n" + startTime + "\n" + startEngineHour + "\n" + endTime + "\n" + endEngineHour + "\n" + polLevel + "\n" + battery + "\n" + remarks;
+                var copyText = "Date: " + date +
+                    "\nVehicle: " + vehicle +
+                    "\nFE1 Expiry: " + fe1 +
+                    "\nFE2 Expiry: " + fe2 +
+                    "\nStart Time: " + startTime +
+                    "\nStart Engine Hour: " + startEngineHour +
+                    "\nEnd Time: " + endTime +
+                    "\nEnd Engine Hour: " + endEngineHour +
+                    "\nPOL Level: " + polLevel +
+                    " Bars\nBattery Voltage: " + battery +
+                    " Volts\n\nRemarks (if any):\n" + remarks;
+
                 navigator.clipboard.writeText(copyText)
                     .then(() => {
-                        alert("All inputs have been copied successfully.");
+                        document.getElementById("myForm").reset(); //
+                        updatePolValueDisplay(); // Reset POL level display
+                        updateBatteryValueDisplay(); // Reset battery display
+                        alert("All inputs have been copied and reset successfully.");
                     })
                     .catch(err => {
                         console.error('Failed to copy: ', err);
+                        throw err;
                     });
             }
         }
@@ -68,7 +131,19 @@
 
         function updatePolValueDisplay() {
             var polLevel = document.getElementById("POLLevel").value;
-            document.getElementById("polValueDisplay").textContent = polLevel;
+            document.getElementById("polValueDisplay").textContent = `${polLevel} Bar(s)`;
+        }
+
+        function updateBatteryValueDisplay() {
+            var battery = document.getElementById("battery").value;
+            document.getElementById("batteryValueDisplay").textContent = `${battery} Volts`;
+        }
+
+        function resetInputs() {
+            document.getElementById("myForm").reset();
+            updatePolValueDisplay(); // Reset POL level display
+            updateBatteryValueDisplay(); // Reset battery display
+            alert("All inputs have been reset successfully.");
         }
 
         window.onload = function () {
@@ -85,123 +160,112 @@
 
             // Update POL Level display on initial load
             updatePolValueDisplay();
+
+            // Update Battery value display on initial load
+            updateBatteryValueDisplay();
         };
     </script>
 </head>
 
 <body>
+    <h2 class="center-screen"><b><u>Enter Vehicle Data:</u></b></h2><br>
 
-    <!-- <h2 style="text-align: center;"><b><u>Enter Vehicle Data:</u></b></h2><br> -->
-    <h2 style="margin-left: 75px;"><b><u>Enter Vehicle Data:</u></b></h2><br>
+    <div class="center-screen">
+        <form onsubmit="copyAllInputs()" id="myForm">
+            <label for="date">Date of Gen Run:</label><br>
+            <input type="date" id="date" name="date" format="dd-mmmm-yyyy" style="width: 122px;" required=""><br><br>
 
-    <form action="#" method="post">
-        <label for="date">Date of Gen Run:</label><br>
-        <input type="date" id="date" name="date" format="dd-mmmm-yyyy" style="width: 122px;"><br><br>
+            <label for="vehicle">Vehicle Number:</label><br>
+            <input type="number" id="vehicle" name="vehicle" style="width: 122px; margin-right: 5px;" required="" max="99999"> MID<br><br>
+            <br>
+            <div class="flex-container" style="justify-content: start;">
+                <label for="FE1Month" style="margin-right: 10px;">FE1 Month:</label>
+                <select id="FE1Month" name="FE1Month" required="" style=" margin-right: 10px;" title="Please select a valid Month">
+                    <option selected="" disabled="" value="">Select Month</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                </select>
 
-        <label for="vehicle">Vehicle Number:</label><br>
-        <input type="text" id="vehicle" name="vehicle" style="width: 122px; margin-right: 5px;" required> Hours<br><br>
+                <label for="FE1Year" class="year-select">FE1 Year:</label>
+                <select id="FE1Year" name="FE1Year" required="" class="year-select">
+                    <option value="" disabled="" selected="">Select Year</option>
+                <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select>
+            </div>
 
-        <div class="flex-container" style="justify-content: start;">
-            <label for="FE1Month" style="margin-right: 10px;">FE1 Month:</label>
-            <select id="FE1Month" name="FE1Month" required style=" margin-right: 10px;">
-                <option value="Select Month" selected disabled>Select Month</option>
-                <option value="1">January</option>
-                <option value="2">February</option>
-                <option value="3">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-            </select>
+            <div class="flex-container" style="justify-content: start;">
+                <label for="FE2Month" style="margin-right: 10px;">FE2 Month:</label>
+                <select id="FE2Month" name="FE2Month" required="" style=" margin-right: 10px;">
+                    <option selected="" disabled="" value="">Select Month</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                </select>
 
-            <label for="FE1Year" class="year-select">FE1 Year:</label>
-            <select id="FE1Year" name="FE1Year" required class="year-select">
-                <option value="" disabled selected>Select Year</option>
-            </select>
-        </div>
+                <label for="FE2Year" class="year-select">FE2 Year:</label>
+                <select id="FE2Year" name="FE2Year" required="" class="year-select">
+                    <option value="" disabled="" selected="">Select Year</option>
+                <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select>
+            </div>
+            <br>
+            <div class="flex-container" style="justify-content: start;">
+                <label for="startTime">Start Time:</label>
+                <input type="time" id="startTime" name="startTime" style="margin-right: 5px; margin-left: 5px;" required="">
 
-        <div class="flex-container" style="justify-content: start;">
-            <label for="FE2Month" style="margin-right: 10px;">FE2 Month:</label>
-            <select id="FE2Month" name="FE2Month" required style=" margin-right: 10px;">
-                <option value="Select Month" selected disabled>Select Month</option>
-                <option value="1">January</option>
-                <option value="2">February</option>
-                <option value="3">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-            </select>
+                <label for="startEngineHour">&amp; Engine Hour:</label>
+                <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" style="width: 110px; margin-right: 5px; margin-left: 3px;" required="" max="10000"> Hours
+            </div>
 
-            <label for="FE2Year" class="year-select">FE2 Year:</label>
-            <select id="FE2Year" name="FE2Year" required class="year-select">
-                <option value="" disabled selected>Select Year</option>
-            </select>
-        </div>
-        <br>
-        <label for="startTime">Start Time:</label><br>
-        <input type="time" id="startTime" name="startTime" required><br><br>
+            <div class="flex-container" style="justify-content: start;">
+                <label for="endTime">End Time:</label>
+                <input type="time" id="endTime" name="endTime" style="margin-right: 5px; margin-left: 9.5px; " required="">
 
-        <label for="startEngineHour">Start Engine Hour:</label><br>
-        <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" style="width: 122px; margin-right: 5px;" required> Hours<br><br>
+                <label for="endEngineHour">&amp; Engine Hour:</label>
+                <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" style="width: 110px; margin-right: 5px; margin-left: 3px;" required="" max="10000"> Hours
+            </div>
 
-        <label for="endTime">End Time:</label><br>
-        <input type="time" id="endTime" name="endTime" required><br><br>
+            <br>
 
-        <label for="endEngineHour">End Engine Hour:</label><br>
-        <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" style="width: 122px;  margin-right: 5px;" required> Hours<br><br>
+            <div class="input-group">
+                <label for="POLLevel">POL Level (0-6 bars):</label>
+                <input type="range" id="POLLevel" name="POLLevel" min="0" max="6" value="3" required="" oninput="updatePolValueDisplay()">
+                <span id="polValueDisplay">3 Bar(s)</span>
+            </div>
 
-        <label for="POLLevel">POL Level (1-6 bars):</label><br>
-        <input type="range" id="POLLevel" name="POLLevel" min="1" max="6" value="1" required
-            oninput="updatePolValueDisplay()">
-        <span id="polValueDisplay">1</span> Bar(s)<br><br>
+            <div class="input-group">
+                <label for="battery" style="margin-right: 20px;">Battery (2-30 Volts):</label>
+                <input type="range" id="battery" name="battery" min="25" max="30" value="27" required="" oninput="updateBatteryValueDisplay()">
+                <span id="batteryValueDisplay">27 Volts</span>
+            </div>
+            <br>
 
-        <label for="battery">Battery:</label><br>
-        <input type="number" id="battery" name="battery" style="width: 122px; margin-right: 5px;" required> Volts<br><br>
+            <label for="remarks">Remarks:</label><br>
+            <textarea id="remarks" name="remarks" rows="4" cols="50" style="height: 200px; width: 425px;"></textarea><br><br>
 
-        <label for="remarks">Remarks:</label><br>
-        <textarea id="remarks" name="remarks" rows="4" cols="50"></textarea><br><br>
+            <div class="button-container">
+                <button type="button" name="resetButton" onclick="resetInputs()">Reset Inputs</button>
+                <button type="submit" name="myButton">Copy Inputs</button>
+            </div>
+            <br>
+        </form>
+    </div>
 
-        <!-- <button type="button" onclick="copyAllInputs()">Copy All Inputs</button> -->
-
-        <head>
-            <title>HTML Button Generator</title>
-            <style>
-                button {
-                    color: #ffffff;
-                    background-color: #2d63c8;
-                    font-size: 19px;
-                    border: 3px solid #2dc854;
-                    border-radius: 20px;
-                    padding: 5px 15px;
-                    letter-spacing: 3px;
-                    cursor: pointer;
-                    width: auto;
-                }
-
-                button:hover {
-                    color: #2d63c8;
-                    background-color: #ffffff;
-                }
-            </style>
-        </head>
-
-        <body>
-            <button type="button" name="myButton" onclick="copyAllInputs()">Copy ALL Inputs to Clipboard</button>
-        </body>
-        <!-- <input type="submit" value="Submit"> -->
-    </form>
-
-</body>
-
-</html>
+</body></html>
