@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Input Form</title>
+    <style>
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .year-select {
+            margin-left: 10px;
+        }
+    </style>
+    <script>
+        function copyAllInputs() {
+            var date = getValue("date");
+            var vehicle = getValue("vehicle");
+            var fe1Month = document.getElementById("FE1Month").value;
+            var fe1Year = document.getElementById("FE1Year").value;
+            var fe2Month = document.getElementById("FE2Month").value;
+            var fe2Year = document.getElementById("FE2Year").value;
+            var startTime = getValue("startTime");
+            var startEngineHour = getValue("startEngineHour");
+            var endTime = getValue("endTime");
+            var endEngineHour = getValue("endEngineHour");
+            var polLevel = document.getElementById("POLLevel").value;
+            var battery = getValue("battery");
+            var remarks = getValue("remarks");
+
+            var emptyFields = [];
+            if (date === "") emptyFields.push("Date");
+            if (vehicle === "") emptyFields.push("Vehicle");
+            if (fe1Month === "Select Month" || fe1Year === "") emptyFields.push("FE1");
+            if (fe2Month === "Select Month" || fe2Year === "") emptyFields.push("FE2");
+            if (startTime === "") emptyFields.push("Start Time");
+            if (startEngineHour === "") emptyFields.push("Start Engine Hour");
+            if (endTime === "") emptyFields.push("End Time");
+            if (endEngineHour === "") emptyFields.push("End Engine Hour");
+            if (polLevel === "") emptyFields.push("POL Level");
+            if (battery === "") emptyFields.push("Battery");
+
+            if (emptyFields.length > 0) {
+                var errorMsg = "Please fill in the following fields:\n";
+                errorMsg += emptyFields.join(", ");
+                alert(errorMsg);
+                throw new Error("Empty fields found.");
+            } else {
+                var fe1 = fe1Month + " " + fe1Year;
+                var fe2 = fe2Month + " " + fe2Year;
+                var copyText = date + "\n" + vehicle + "\n" + fe1 + "\n" + fe2 + "\n" + startTime + "\n" + startEngineHour + "\n" + endTime + "\n" + endEngineHour + "\n" + polLevel + "\n" + battery + "\n" + remarks;
+                navigator.clipboard.writeText(copyText)
+                    .then(() => {
+                        alert("All inputs have been copied successfully.");
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+            }
+        }
+
+        function getValue(id) {
+            return document.getElementById(id).value.trim();
+        }
+
+        function updatePolValueDisplay() {
+            var polLevel = document.getElementById("POLLevel").value;
+            document.getElementById("polValueDisplay").textContent = polLevel;
+        }
+
+        window.onload = function () {
+            var currentYear = new Date().getFullYear();
+            var yearDropdowns = document.querySelectorAll('select[id$="Year"]');
+            yearDropdowns.forEach(function (dropdown) {
+                for (var i = currentYear - 1; i <= currentYear + 2; i++) {
+                    var option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    dropdown.appendChild(option);
+                }
+            });
+
+            // Update POL Level display on initial load
+            updatePolValueDisplay();
+        };
+    </script>
+</head>
+
+<body>
+
+    <!-- <h2 style="text-align: center;"><b><u>Enter Vehicle Data:</u></b></h2><br> -->
+    <h2 style="margin-left: 75px;"><b><u>Enter Vehicle Data:</u></b></h2><br>
+
+    <form action="#" method="post">
+        <label for="date">Date of Gen Run:</label><br>
+        <input type="date" id="date" name="date" format="dd-mmmm-yyyy" style="width: 122px;"><br><br>
+
+        <label for="vehicle">Vehicle Number:</label><br>
+        <input type="text" id="vehicle" name="vehicle" style="width: 122px; margin-right: 5px;" required> Hours<br><br>
+
+        <div class="flex-container" style="justify-content: start;">
+            <label for="FE1Month" style="margin-right: 10px;">FE1 Month:</label>
+            <select id="FE1Month" name="FE1Month" required style=" margin-right: 10px;">
+                <option value="Select Month" selected disabled>Select Month</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+
+            <label for="FE1Year" class="year-select">FE1 Year:</label>
+            <select id="FE1Year" name="FE1Year" required class="year-select">
+                <option value="" disabled selected>Select Year</option>
+            </select>
+        </div>
+
+        <div class="flex-container" style="justify-content: start;">
+            <label for="FE2Month" style="margin-right: 10px;">FE2 Month:</label>
+            <select id="FE2Month" name="FE2Month" required style=" margin-right: 10px;">
+                <option value="Select Month" selected disabled>Select Month</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+
+            <label for="FE2Year" class="year-select">FE2 Year:</label>
+            <select id="FE2Year" name="FE2Year" required class="year-select">
+                <option value="" disabled selected>Select Year</option>
+            </select>
+        </div>
+        <br>
+        <label for="startTime">Start Time:</label><br>
+        <input type="time" id="startTime" name="startTime" required><br><br>
+
+        <label for="startEngineHour">Start Engine Hour:</label><br>
+        <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" style="width: 122px; margin-right: 5px;" required> Hours<br><br>
+
+        <label for="endTime">End Time:</label><br>
+        <input type="time" id="endTime" name="endTime" required><br><br>
+
+        <label for="endEngineHour">End Engine Hour:</label><br>
+        <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" style="width: 122px;  margin-right: 5px;" required> Hours<br><br>
+
+        <label for="POLLevel">POL Level (1-6 bars):</label><br>
+        <input type="range" id="POLLevel" name="POLLevel" min="1" max="6" value="1" required
+            oninput="updatePolValueDisplay()">
+        <span id="polValueDisplay">1</span> Bar(s)<br><br>
+
+        <label for="battery">Battery:</label><br>
+        <input type="number" id="battery" name="battery" style="width: 122px; margin-right: 5px;" required> Volts<br><br>
+
+        <label for="remarks">Remarks:</label><br>
+        <textarea id="remarks" name="remarks" rows="4" cols="50"></textarea><br><br>
+
+        <!-- <button type="button" onclick="copyAllInputs()">Copy All Inputs</button> -->
+
+        <head>
+            <title>HTML Button Generator</title>
+            <style>
+                button {
+                    color: #ffffff;
+                    background-color: #2d63c8;
+                    font-size: 19px;
+                    border: 3px solid #2dc854;
+                    border-radius: 20px;
+                    padding: 5px 15px;
+                    letter-spacing: 3px;
+                    cursor: pointer;
+                    width: auto;
+                }
+
+                button:hover {
+                    color: #2d63c8;
+                    background-color: #ffffff;
+                }
+            </style>
+        </head>
+
+        <body>
+            <button type="button" name="myButton" onclick="copyAllInputs()">Copy ALL Inputs to Clipboard</button>
+        </body>
+        <!-- <input type="submit" value="Submit"> -->
+    </form>
+
+</body>
+
+</html>
