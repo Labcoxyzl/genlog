@@ -14,6 +14,14 @@
         .year-select {
             margin-left: 10px;
         }
+
+        .center-screen {
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            /* text-align: center; */
+            min-height: 100vh;
+        }
     </style>
     <script>
         function copyAllInputs() {
@@ -90,10 +98,10 @@
 </head>
 
 <body>
-
     <!-- <h2 style="text-align: center;"><b><u>Enter Vehicle Data:</u></b></h2><br> -->
-    <h2 style="margin-left: 75px;"><b><u>Enter Vehicle Data:</u></b></h2><br>
-
+    <h2 class="center-screen"><b><u>Enter Vehicle Data:</u></b></h2><br>
+    
+    <div class="center-screen">
     <form action="#" method="post">
         <label for="date">Date of Gen Run:</label><br>
         <input type="date" id="date" name="date" format="dd-mmmm-yyyy" style="width: 122px;"><br><br>
@@ -153,13 +161,15 @@
         <input type="time" id="startTime" name="startTime" required><br><br>
 
         <label for="startEngineHour">Start Engine Hour:</label><br>
-        <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" style="width: 122px; margin-right: 5px;" required> Hours<br><br>
+        <input type="number" id="startEngineHour" name="startEngineHour" step="0.1"
+            style="width: 122px; margin-right: 5px;" required> Hours<br><br>
 
         <label for="endTime">End Time:</label><br>
         <input type="time" id="endTime" name="endTime" required><br><br>
 
         <label for="endEngineHour">End Engine Hour:</label><br>
-        <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" style="width: 122px;  margin-right: 5px;" required> Hours<br><br>
+        <input type="number" id="endEngineHour" name="endEngineHour" step="0.1"
+            style="width: 122px;  margin-right: 5px;" required> Hours<br><br>
 
         <label for="POLLevel">POL Level (1-6 bars):</label><br>
         <input type="range" id="POLLevel" name="POLLevel" min="1" max="6" value="1" required
@@ -167,7 +177,8 @@
         <span id="polValueDisplay">1</span> Bar(s)<br><br>
 
         <label for="battery">Battery:</label><br>
-        <input type="number" id="battery" name="battery" style="width: 122px; margin-right: 5px;" required> Volts<br><br>
+        <input type="number" id="battery" name="battery" style="width: 122px; margin-right: 5px;" required>
+        Volts<br><br>
 
         <label for="remarks">Remarks:</label><br>
         <textarea id="remarks" name="remarks" rows="4" cols="50"></textarea><br><br>
@@ -201,7 +212,7 @@
         </body>
         <!-- <input type="submit" value="Submit"> -->
     </form>
-
+    </div>  
 </body>
 
 </html>
