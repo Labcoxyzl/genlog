@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0051)file:///C:/Users/zarky/Downloads/Gen%20Log%203.html -->
+<!-- saved from url=(0323)file:///C:/Users/zarky/Downloads/Gen%20Log%203.html?date=2024-03-13&vehicleNumber=66765&fe1Expiry=2024-03&fe2Expiry=2024-12&startTime=09%3A26&startEngineHour=5676&endTime=09%3A29&endEngineHour=5677.5&polLevel=5&batteryVoltage=19&remarks=Date%3A+13+March+2024%0D%0AVehicle+Number%3A+23433+MID%0D%0AFE1+Expiry%3A+1+March+2024 -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +9,28 @@
             font-weight: bold;
             text-decoration: underline;
         }
+
+        input[type="date"],
+        input[type="number"],
+        input[type="month"],
+        input[type="time"],
+        input[type="range"],
+        textarea {
+            width: 200px;
+        }
+
+        input[type="submit"] {
+            width: 220px;
+        }
     </style>
     <script>
         function copyToClipboard() {
             // Get input field values
-            var date = document.getElementById("date").value;
+            //var date = document.getElementById("date").value;
+            var date = new Date(document.getElementById("date").value).toLocaleDateString('en-sg', { day: "numeric", month: "long", year: "numeric" });
             var vehicleNumber = document.getElementById("vehicleNumber").value;
-            var fe1Expiry = document.getElementById("fe1Expiry").value;
-            var fe2Expiry = document.getElementById("fe2Expiry").value;
+            var fe1Expiry = new Date(document.getElementById("fe1Expiry").value).toLocaleDateString('en-sg', { month: "long", year: "numeric" });
+            var fe2Expiry = new Date(document.getElementById("fe2Expiry").value).toLocaleDateString('en-sg', { month: "long", year: "numeric" });
             var startTime = document.getElementById("startTime").value;
             var startEngineHour = document.getElementById("startEngineHour").value;
             var endTime = document.getElementById("endTime").value;
@@ -27,16 +41,16 @@
 
             // Concatenate values
             var copiedText = "Date: " + date + "\n" +
-                "Vehicle Number: " + vehicleNumber + "\n" +
+                "Vehicle Number: " + vehicleNumber + " MID\n" +
                 "FE1 Expiry: " + fe1Expiry + "\n" +
                 "FE2 Expiry: " + fe2Expiry + "\n" +
                 "Start Time: " + startTime + "\n" +
                 "Start Engine Hour: " + startEngineHour + "\n" +
                 "End Time: " + endTime + "\n" +
                 "End Engine Hour: " + endEngineHour + "\n" +
-                "POL Level: " + polLevel + "\n" +
-                "Battery Voltage: " + batteryVoltage + "\n" +
-                "Remarks: " + remarks;
+                "POL Level: " + polLevel + " Bar(s)\n" +
+                "Battery Voltage: " + batteryVoltage + " Volts\n\n" +
+                "Remarks: \n" + remarks;
 
             // Copy to clipboard
             navigator.clipboard.writeText(copiedText).then(function () {
@@ -54,48 +68,49 @@
 <body>
 
 <!-- Title -->
-<div class="title">Enter CPAG Vehicle Data:</div>
+<div class="title" style="font-size: 20px;">Enter CPAG Vehicle Data:</div>
+<br>
 
 <!-- Form -->
 <form id="dataForm" onsubmit="copyToClipboard()">
     <!-- Input fields -->
-    <label for="date">Date:</label>
-    <input type="date" id="date" name="date" required=""><br>
+    <label for="date">Date of Check:</label><br>
+    <input type="date" id="date" name="date" required=""><br><br>
 
-    <label for="vehicleNumber">Vehicle Number:</label>
-    <input type="number" id="vehicleNumber" name="vehicleNumber" required=""><br>
+    <label for="vehicleNumber">Vehicle Number:</label><br>
+    <input type="number" id="vehicleNumber" name="vehicleNumber" required="" step="0.1" min="10000" max="99999"><br><br>
 
-    <label for="fe1Expiry">FE1 Expiry:</label>
-    <input type="month" id="fe1Expiry" name="fe1Expiry" required=""><br>
+    <label for="fe1Expiry">FE1 Expiry Month / Year:</label><br>
+    <input type="month" id="fe1Expiry" name="fe1Expiry" required=""><br><br>
 
-    <label for="fe2Expiry">FE2 Expiry:</label>
-    <input type="month" id="fe2Expiry" name="fe2Expiry" required=""><br>
+    <label for="fe2Expiry">FE2 Expiry Month / Year:</label><br>
+    <input type="month" id="fe2Expiry" name="fe2Expiry" required=""><br><br>
 
-    <label for="startTime">Start Time:</label>
-    <input type="time" id="startTime" name="startTime" required=""><br>
+    <label for="startTime">Start Time:</label><br>
+    <input type="time" id="startTime" name="startTime" required=""><br><br>
 
-    <label for="startEngineHour">Start Engine Hour:</label>
-    <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" required=""><br>
+    <label for="startEngineHour">Start Engine Hour:</label><br>
+    <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="10000" required=""><br><br>
 
-    <label for="endTime">End Time:</label>
-    <input type="time" id="endTime" name="endTime" required=""><br>
+    <label for="endTime">End Time:</label><br>
+    <input type="time" id="endTime" name="endTime" required=""><br><br>
 
-    <label for="endEngineHour">End Engine Hour:</label>
-    <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" required=""><br>
+    <label for="endEngineHour">End Engine Hour:</label><br>
+    <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="10000" required=""><br><br>
 
-    <label for="polLevel">POL Level:</label>
-    <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="3" onchange="updateRangeOutput(polLevel, polLevelOutput)" required="">
-    <output id="polLevelOutput">0</output><br>
+    <label for="polLevel">POL Level:</label><br>
+    <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="3" onchange="updateRangeOutput(&#39;polLevel&#39;, &#39;polLevelOutput&#39;)" required="">
+    <output id="polLevelOutput">3</output> Bar(s)<br><br>
 
-    <label for="batteryVoltage">Battery Voltage:</label>
-    <input type="range" id="batteryVoltage" name="batteryVoltage" min="24" max="30" value="27" onchange="updateRangeOutput(batteryVoltage, batteryVoltageOutput)" required="">
-    <output id="batteryVoltageOutput">24</output><br>
+    <label for="batteryVoltage">Battery Voltage:</label><br>
+    <input type="range" id="batteryVoltage" name="batteryVoltage" min="10" max="30" value="27" onchange="updateRangeOutput(&#39;batteryVoltage&#39;, &#39;batteryVoltageOutput&#39;)" required="">
+    <output id="batteryVoltageOutput">27</output> Volts<br><br>
 
-    <label for="remarks">Remarks:</label>
-    <input type="text" id="remarks" name="remarks" required=""><br>
+    <label for="remarks">Remarks (if any):</label><br>
+    <textarea id="remarks" name="remarks" rows="4" cols="50"></textarea><br><br>
 
     <!-- Button to copy to clipboard -->
-    <button type="submit">Copy to Clipboard</button>
+    <button type="submit" style="width: 200px; fill: chartreuse;">Copy to Clipboard</button>
 </form>
 
 
