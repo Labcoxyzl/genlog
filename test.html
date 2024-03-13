@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Form Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        /*use absolute positioning to make the form mobile responsive  */
+        form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        /* Use the device width to adjust the size of the form*/
+        @media only screen and (max-width: 700px) {
+            form {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="#" id="myForm">
+        <label for="date">Date of Gen Run:</label><br>
+        <input type="date" id="date" name="date" format="dd-mmmm-yyyy" style="width: 122px;" required=""><br><br>
+
+        <label for="vehicle">Vehicle Number:</label><br>
+        <input type="number" id="vehicle" name="vehicle" style="width: 122px; margin-right: 5px;" required=""
+            max="99999"> MID<br><br>
+        <br>
+        <div class="flex-container" style="justify-content: start;">
+            <label for="FE1Month" style="margin-right: 10px;">FE1 Month:</label>
+            <select id="FE1Month" name="FE1Month" required="" style=" margin-right: 10px;"
+                title="Please select a valid Month">
+                <option selected="" disabled="" value="">Select Month</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+
+            <label for="FE1Year" class="year-select">FE1 Year:</label>
+            <select id="FE1Year" name="FE1Year" required="" class="year-select">
+                <option value="" disabled="" selected="">Select Year</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+            </select>
+        </div>
+
+        <div class="flex-container" style="justify-content: start;">
+            <label for="FE2Month" style="margin-right: 10px;">FE2 Month:</label>
+            <select id="FE2Month" name="FE2Month" required="" style=" margin-right: 10px;">
+                <option selected="" disabled="" value="">Select Month</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+
+            <label for="FE2Year" class="year-select">FE2 Year:</label>
+            <select id="FE2Year" name="FE2Year" required="" class="year-select">
+                <option value="" disabled="" selected="">Select Year</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+            </select>
+        </div>
+        <br>
+        <div class="flex-container column">
+            <div class="">
+                <label for="startTime">Start Time:</label>
+                <input type="time" id="startTime" name="startTime" style="margin-right: 5px; margin-left: 5px;"
+                    required="">
+            </div>
+            <div>
+                <label for="startEngineHour">Engine Hour:</label>
+                <input type="number" id="startEngineHour" name="startEngineHour" step="0.1"
+                    style="width: 20%; margin-right: 5px; margin-left: 3px;" required="" max="10000"> Hours
+            </div>
+        </div>
+
+        <div class="flex-container column">
+            <label for="endTime">End Time:</label>
+            <input type="time" id="endTime" name="endTime" style="margin-right: 5px; margin-left: 9.5px; " required="">
+
+            <label for="endEngineHour">&amp; Engine Hour:</label>
+            <input type="number" id="endEngineHour" name="endEngineHour" step="0.1"
+                style="width: 20%; margin-right: 5px; margin-left: 3px;" required="" max="10000"> Hours
+        </div>
+
+        <br>
+
+        <div class="input-group">
+            <label for="POLLevel">POL Level (0-6 bars):</label>
+            <input type="range" id="POLLevel" name="POLLevel" min="0" max="6" value="3" required="">
+            <span id="polValueDisplay">3 Bar(s)</span>
+        </div>
+
+        <div class="input-group">
+            <label for="battery" style="margin-right: 20px;">Battery (2-30 Volts):</label>
+            <input type="range" id="battery" name="battery" min="25" max="30" value="27" required="">
+            <span id="batteryValueDisplay">27 Volts</span>
+        </div>
+        <br>
+
+        <label for="remarks">Remarks:</label><br>
+        <textarea id="remarks" name="remarks" rows="4" cols="50" style="height: 200px; width: 80%;"></textarea><br><br>
+
+        <div class="button-container">
+            <button type="button" name="resetButton">Reset Inputs</button>
+            <button type="submit" name="myButton">Copy Inputs</button>
+        </div>
+        <br>
+    </form>
+</body>
+
+</html>
