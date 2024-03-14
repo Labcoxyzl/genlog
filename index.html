@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0323)file:///C:/Users/zarky/Downloads/Gen%20Log%203.html?date=2024-03-13&vehicleNumber=66765&fe1Expiry=2024-03&fe2Expiry=2024-12&startTime=09%3A26&startEngineHour=5676&endTime=09%3A29&endEngineHour=5677.5&polLevel=5&batteryVoltage=19&remarks=Date%3A+13+March+2024%0D%0AVehicle+Number%3A+23433+MID%0D%0AFE1+Expiry%3A+1+March+2024 -->
+<!-- saved from url=(0313)file:///C:/Users/zarky/Downloads/Gen%20Log%204.html?date=0004-03-12&vehicleNumber=12345&fe1Expiry=275760-01&fe2Expiry=275760-04&startTime=23%3A23&startEngineHour=1224&endTime=23%3A23&endEngineHour=1344&polLevel=3&batteryVoltage=27&remarks=Remarks+%2F+faults+%28%0D%0ARemarks+%2F+faults+%28if+any%29%0D%0Aif+any%29 -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +34,6 @@
     <script>
         function copyToClipboard() {
             // Get input field values
-            //var date = document.getElementById("date").value;
             var date = new Date(document.getElementById("date").value).toLocaleDateString('en-sg', { day: "numeric", month: "long", year: "numeric" });
             var vehicleNumber = document.getElementById("vehicleNumber").value;
             var fe1Expiry = new Date(document.getElementById("fe1Expiry").value).toLocaleDateString('en-sg', { month: "long", year: "numeric" });
@@ -47,6 +46,20 @@
             var batteryVoltage = document.getElementById("batteryVoltage").value;
             var remarks = document.getElementById("remarks").value;
 
+            // Check if end time is ahead of start time
+            var startDateTime = new Date(date + " " + startTime);
+            var endDateTime = new Date(date + " " + endTime);
+            if (endDateTime < startDateTime) {
+                alert("End Time must be ahead of Start Time.");
+                return false;
+            }
+
+            // Check if end engine hour is more than start engine hour
+            if (parseFloat(endEngineHour) <= parseFloat(startEngineHour)) {
+                alert("End Engine Hour must be more than Start Engine Hour.");
+                return false;
+            }
+
             // Concatenate values
             var copiedText = "Date: " + date + "\n" +
                 "Vehicle Number: " + vehicleNumber + " MID\n" +
@@ -58,7 +71,7 @@
                 "End Engine Hour: " + endEngineHour + "\n" +
                 "POL Level: " + polLevel + " Bar(s)\n" +
                 "Battery Voltage: " + batteryVoltage + " Volts\n\n" +
-                "Remarks: \n" + remarks;
+                "Remarks / faults (if any): \n--------------------------\n" + remarks;
 
             // Copy to clipboard
             navigator.clipboard.writeText(copiedText).then(function () {
@@ -81,7 +94,7 @@
 <br>
 
 <!-- Form -->
-<form id="dataForm" onsubmit="copyToClipboard()">
+<form id="dataForm" onsubmit="return copyToClipboard()">
     <!-- Input fields -->
     <label for="date">Date of Check:</label><br>
     <input type="date" id="date" name="date" required="" style="width: 75%;"><br><br>
@@ -121,7 +134,6 @@
     <!-- Button to copy to clipboard -->
     <button type="submit" style="width: 75%; height: 30px; fill: chartreuse;">Copy ALL inputs to Clipboard</button><br><br><br><br>
 </form>
-
 
 
 </body></html>
