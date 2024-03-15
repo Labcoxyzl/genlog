@@ -1,280 +1,145 @@
 <!DOCTYPE html>
+<!-- saved from url=(0051)file:///C:/Users/zarky/Downloads/Gen%20Log%205.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Input Form</title>
+    <title>Copy Inputs to Clipboard</title>
     <style>
-        .flex-container {
-            display: flex;
-            justify-content: space-between;
-            flex-direction: row; /* Default direction */
-            align-items: center; /* Center items vertically */
+        .title {
+            font-weight: bold;
+            text-decoration: underline;
         }
 
-        @media only screen and (max-width: 600px) {
-            /* Adjust the max-width as needed */
-            .flex-container {
-                flex-direction: column; /* Change to column direction for smaller screens */
-            }
+        .subtitle {
+            font-weight: bold;
+            text-decoration: wavy; 
+            color: cadetblue;
         }
+        /* old code here */
 
-        .year-select {
-            margin-left: 10px;
-        }
-
-        .center-screen {
-            display: flex;
-            justify-content: center;
-        }
-
-        button {
-            color: #ffffff;
-            background-color: #2d63c8;
-            font-size: 19px;
-            border: 3px solid #2dc854;
-            border-radius: 20px;
-            padding: 5px 15px;
-            letter-spacing: 3px;
-            cursor: pointer;
-            width: auto;
-        }
-
-        button:hover {
-            color: #2d63c8;
-            background-color: #ffffff;
-        }
-
-        /* Custom style for the reset button */
-        button[name="resetButton"] {
-            background-color: red;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .input-group label {
-            margin-right: 10px;
-        }
-
-        .input-group input[type="range"] {
-            margin-right: 10px;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            width: 425px;
-            /* Adjust the width as needed */
-            margin-top: 1px;
-            /* Add margin for spacing */
-        }
     </style>
     <script>
-        async function copyAllInputs() {
-            var date = new Date(getValue("date")).toLocaleDateString('en-sg', { day: "numeric", month: "long", year: "numeric" });
-            var vehicle = getValue("vehicle");
-            var fe1Month = document.getElementById("FE1Month").value;
-            var fe1Year = document.getElementById("FE1Year").value;
-            var fe2Month = document.getElementById("FE2Month").value;
-            var fe2Year = document.getElementById("FE2Year").value;
-            var startTime = getValue("startTime");
-            var startEngineHour = getValue("startEngineHour");
-            var endTime = getValue("endTime");
-            var endEngineHour = getValue("endEngineHour");
-            var polLevel = document.getElementById("POLLevel").value;
-            var battery = getValue("battery");
-            var remarks = getValue("remarks");
+        function copyToClipboard() {
+            // Get input field values
+            var date = new Date(document.getElementById("date").value).toLocaleDateString('en-sg', { day: "numeric", month: "long", year: "numeric" });
+            var vehicleNumber = document.getElementById("vehicleNumber").value;
+            var fe1Expiry = new Date(document.getElementById("fe1Expiry").value).toLocaleDateString('en-sg', { month: "long", year: "numeric" });
+            var fe2Expiry = new Date(document.getElementById("fe2Expiry").value).toLocaleDateString('en-sg', { month: "long", year: "numeric" });
+            var startTime = document.getElementById("startTime").value;
+            var startEngineHour = document.getElementById("startEngineHour").value;
+            var endTime = document.getElementById("endTime").value;
+            var endEngineHour = document.getElementById("endEngineHour").value;
+            var polLevel = document.getElementById("polLevel").value;
+            var batteryVoltage = document.getElementById("batteryVoltage").value;
+            var remarks = document.getElementById("remarks").value;
+            var vehicleVariant = document.getElementById("vehicleVariant").value;
 
-            var emptyFields = [];
-            if (date === "") emptyFields.push("Date");
-            if (vehicle === "") emptyFields.push("Vehicle");
-            if (fe1Month === "Select Month" || fe1Year === "") emptyFields.push("FE1");
-            if (fe2Month === "Select Month" || fe2Year === "") emptyFields.push("FE2");
-            if (startTime === "") emptyFields.push("Start Time");
-            if (startEngineHour === "") emptyFields.push("Start Engine Hour");
-            if (endTime === "") emptyFields.push("End Time");
-            if (endEngineHour === "") emptyFields.push("End Engine Hour");
-            if (polLevel === "") emptyFields.push("POL Level");
-            if (battery === "") emptyFields.push("Battery");
+            var EngineHourDiff = parseFloat(endEngineHour-startEngineHour).toFixed(1)   //round to 1dp (optional)
+            var startDT = new Date("1/1/1999 " + startTime);                            //arbitrary date to use date difference
+            var endDT = new Date("1/1/1999 " + endTime);                                //returns unix time
+            var GenTimeDiff = ((endDT.getTime() - startDT.getTime())/60000).toFixed(1)  //divide by 60*1000 to get minutes
 
-            if (emptyFields.length > 0) {
-                var errorMsg = "Please fill in the following fields:\n";
-                errorMsg += emptyFields.join(", ");
-                alert(errorMsg);
-                throw new Error("Empty fields found.");
-            } else {
-                var fe1 = fe1Month + " " + fe1Year;
-                var fe2 = fe2Month + " " + fe2Year;
-                var copyText = "Date: " + date +
-                    "\nVehicle: " + vehicle +
-                    "\nFE1 Expiry: " + fe1 +
-                    "\nFE2 Expiry: " + fe2 +
-                    "\nStart Time: " + startTime +
-                    "\nStart Engine Hour: " + startEngineHour +
-                    "\nEnd Time: " + endTime +
-                    "\nEnd Engine Hour: " + endEngineHour +
-                    "\nPOL Level: " + polLevel +
-                    " Bars\nBattery Voltage: " + battery +
-                    " Volts\n\nRemarks (if any):\n" + remarks;
-
-                navigator.clipboard.writeText(copyText)
-                    .then(() => {
-                        document.getElementById("myForm").reset(); //
-                        updatePolValueDisplay(); // Reset POL level display
-                        updateBatteryValueDisplay(); // Reset battery display
-                        alert("All inputs have been copied and reset successfully.");
-                    })
-                    .catch(err => {
-                        console.error('Failed to copy: ', err);
-                        throw err;
-                    });
+            // Check if end time is ahead of start time
+            var startDateTime = new Date(date + " " + startTime);
+            var endDateTime = new Date(date + " " + endTime);
+            if (endDateTime < startDateTime) {
+                alert("End Time must be ahead of Start Time.");
+                return false;
             }
-        }
 
-        function getValue(id) {
-            return document.getElementById(id).value.trim();
-        }
+            // Check if end engine hour is more than start engine hour
+            if (parseFloat(endEngineHour) <= parseFloat(startEngineHour)) {
+                alert("End Engine Hour must be more than Start Engine Hour.");
+                return false;
+            }
 
-        function updatePolValueDisplay() {
-            var polLevel = document.getElementById("POLLevel").value;
-            document.getElementById("polValueDisplay").textContent = `${polLevel} Bar(s)`;
-        }
+            // Concatenate values
+            var copiedText = "Date: " + date + "\n" +
+                "Vehicle Number: " + vehicleNumber + " MID\n" +
+                "Vehicle Variant: " + vehicleVariant + "\n" +
+                "FE1 Expiry: " + fe1Expiry + "\n" +
+                "FE2 Expiry: " + fe2Expiry + "\n" +
+                "Start Time: " + startTime + "\n" +
+                "Start Engine Hour: " + startEngineHour + "\n" +
+                "End Time: " + endTime + "\n" +
+                "End Engine Hour: " + endEngineHour + "\n" +
+                "Gen. Run Results: " + `${EngineHourDiff} Engine Hours in ${GenTimeDiff} Minutes.\n` +
+                "POL Level: " + polLevel + " Bar(s)\n" +
+                "Battery Voltage: " + batteryVoltage + " Volts\n\n" +
+                "Remarks / faults (if any): \n--------------------------\n" + remarks;
 
-        function updateBatteryValueDisplay() {
-            var battery = document.getElementById("battery").value;
-            document.getElementById("batteryValueDisplay").textContent = `${battery} Volts`;
-        }
-
-        function resetInputs() {
-            document.getElementById("myForm").reset();
-            updatePolValueDisplay(); // Reset POL level display
-            updateBatteryValueDisplay(); // Reset battery display
-            alert("All inputs have been reset successfully.");
-        }
-
-        window.onload = function () {
-            var currentYear = new Date().getFullYear();
-            var yearDropdowns = document.querySelectorAll('select[id$="Year"]');
-            yearDropdowns.forEach(function (dropdown) {
-                for (var i = currentYear - 1; i <= currentYear + 2; i++) {
-                    var option = document.createElement('option');
-                    option.value = i;
-                    option.textContent = i;
-                    dropdown.appendChild(option);
-                }
+            // Copy to clipboard
+            navigator.clipboard.writeText(copiedText).then(function () {
+                alert("Copied to clipboard!");
+            }, function () {
+                alert("Failed to copy to clipboard!");
             });
+        }
 
-            // Update POL Level display on initial load
-            updatePolValueDisplay();
-
-            // Update Battery value display on initial load
-            updateBatteryValueDisplay();
-        };
+        function updateRangeOutput(rangeId, outputId) {
+            document.getElementById(outputId).value = document.getElementById(rangeId).value;
+        }
     </script>
 </head>
-
 <body>
-    <h2 class="center-screen"><b><u>Enter Vehicle Data:</u></b></h2><br>
 
-    <div class="center-screen">
-        <form onsubmit="copyAllInputs()" id="myForm">
-            <label for="date">Date of Gen Run:</label><br>
-            <input type="date" id="date" name="date" format="dd-mmmm-yyyy" style="width: 122px;" required=""><br><br>
+<!-- Title -->
+<div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</div>
+<div class="subtitle" style="font-size: 15px;">Enter your vehicle details below and copy to clipboard</div>
+<div class="subtitle" style="font-size: 15px;">Refresh page to reset inputs</div><br>
+<br>
 
-            <label for="vehicle">Vehicle Number:</label><br>
-            <input type="number" id="vehicle" name="vehicle" style="width: 122px; margin-right: 5px;" required="" max="99999"> MID<br><br>
-            <br>
-            <div class="flex-container" style="justify-content: start;">
-                <label for="FE1Month" style="margin-right: 10px;">FE1 Month:</label>
-                <select id="FE1Month" name="FE1Month" required="" style=" margin-right: 10px;" title="Please select a valid Month">
-                    <option selected="" disabled="" value="">Select Month</option>
-                    <option value="January">January</option>
-                    <option value="February">February</option>
-                    <option value="March">March</option>
-                    <option value="April">April</option>
-                    <option value="May">May</option>
-                    <option value="June">June</option>
-                    <option value="July">July</option>
-                    <option value="August">August</option>
-                    <option value="September">September</option>
-                    <option value="October">October</option>
-                    <option value="November">November</option>
-                    <option value="December">December</option>
-                </select>
+<!-- Form -->
+<form id="dataForm" onsubmit="return copyToClipboard()">
+    <!-- Input fields -->
+    <label for="date">Date of Check:</label><br>
+    <input type="date" id="date" name="date" required="" style="width: 80%;"><br><br>
 
-                <label for="FE1Year" class="year-select">FE1 Year:</label>
-                <select id="FE1Year" name="FE1Year" required="" class="year-select">
-                    <option value="" disabled="" selected="">Select Year</option>
-                <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select>
-            </div>
+    <label for="vehicleNumber">Vehicle Number:</label><br>
+    <input type="number" id="vehicleNumber" name="vehicleNumber" required="" step="1" min="10000" max="99999" style="width: 80%;"><br><br>
 
-            <div class="flex-container" style="justify-content: start;">
-                <label for="FE2Month" style="margin-right: 10px;">FE2 Month:</label>
-                <select id="FE2Month" name="FE2Month" required="" style=" margin-right: 10px;">
-                    <option selected="" disabled="" value="">Select Month</option>
-                    <option value="January">January</option>
-                    <option value="February">February</option>
-                    <option value="March">March</option>
-                    <option value="April">April</option>
-                    <option value="May">May</option>
-                    <option value="June">June</option>
-                    <option value="July">July</option>
-                    <option value="August">August</option>
-                    <option value="September">September</option>
-                    <option value="October">October</option>
-                    <option value="November">November</option>
-                    <option value="December">December</option>
-                </select>
+    <label for="vehicleVariant">Vehicle Variant:</label><br>
+    <select id="vehicleVariant" required="" style="width: 80%;">
+        <option value="CPAG-Warberg">CPAG-Warberg</option>
+        <option value="CPAG-Hierra">CPAG-Hierra</option>
+        <option value="10 Ton MTV">10 Ton MTV</option>
+        <option value="DSM&#39;s Car">DSM's Car</option>
+    </select><br><br>
 
-                <label for="FE2Year" class="year-select">FE2 Year:</label>
-                <select id="FE2Year" name="FE2Year" required="" class="year-select">
-                    <option value="" disabled="" selected="">Select Year</option>
-                <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select>
-            </div>
-            <br>
-            <div class="flex-container" style="justify-content: start;">
-                <label for="startTime">Start Time:</label>
-                <input type="time" id="startTime" name="startTime" style="margin-right: 5px; margin-left: 5px;" required="">
+    <label for="fe1Expiry">FE1 Expiry Month / Year:</label><br>
+    <input type="month" id="fe1Expiry" name="fe1Expiry" required="" style="width: 80%;"><br><br>
 
-                <label for="startEngineHour">&amp; Engine Hour:</label>
-                <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" style="width: 110px; margin-right: 5px; margin-left: 3px;" required="" max="10000"> Hours
-            </div>
+    <label for="fe2Expiry">FE2 Expiry Month / Year:</label><br>
+    <input type="month" id="fe2Expiry" name="fe2Expiry" required="" style="width: 80%;"><br><br>
 
-            <div class="flex-container" style="justify-content: start;">
-                <label for="endTime">End Time:</label>
-                <input type="time" id="endTime" name="endTime" style="margin-right: 5px; margin-left: 9.5px; " required="">
+    <label for="startTime">Start Time:</label><br>
+    <input type="time" id="startTime" name="startTime" required="" style="width: 80%;"><br><br>
 
-                <label for="endEngineHour">&amp; Engine Hour:</label>
-                <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" style="width: 110px; margin-right: 5px; margin-left: 3px;" required="" max="10000"> Hours
-            </div>
+    <label for="startEngineHour">Start Engine Hour:</label><br>
+    <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="10000" required="" style="width: 80%;"><br><br>
 
-            <br>
+    <label for="endTime">End Time:</label><br>
+    <input type="time" id="endTime" name="endTime" required="" style="width: 80%;"><br><br>
 
-            <div class="input-group">
-                <label for="POLLevel">POL Level (0-6 bars):</label>
-                <input type="range" id="POLLevel" name="POLLevel" min="0" max="6" value="3" required="" oninput="updatePolValueDisplay()">
-                <span id="polValueDisplay">3 Bar(s)</span>
-            </div>
+    <label for="endEngineHour">End Engine Hour:</label><br>
+    <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="10000" required="" style="width: 80%;"><br><br>
 
-            <div class="input-group">
-                <label for="battery" style="margin-right: 20px;">Battery (2-30 Volts):</label>
-                <input type="range" id="battery" name="battery" min="25" max="30" value="27" required="" oninput="updateBatteryValueDisplay()">
-                <span id="batteryValueDisplay">27 Volts</span>
-            </div>
-            <br>
+    <label for="polLevel">POL Level:</label><br>
+    <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="3" onchange="updateRangeOutput(&#39;polLevel&#39;, &#39;polLevelOutput&#39;)" required="" style="width: 80%;">
+    <output id="polLevelOutput">3</output> Bar(s)<br><br>
 
-            <label for="remarks">Remarks:</label><br>
-            <textarea id="remarks" name="remarks" rows="4" cols="50" style="height: 200px; width: 425px;"></textarea><br><br>
+    <label for="batteryVoltage">Battery Voltage:</label><br>
+    <input type="range" id="batteryVoltage" name="batteryVoltage" min="0" max="30" value="27" onchange="updateRangeOutput(&#39;batteryVoltage&#39;, &#39;batteryVoltageOutput&#39;)" required="" style="width: 80%;">
+    <output id="batteryVoltageOutput">27</output> Volts<br><br>
 
-            <div class="button-container">
-                <button type="button" name="resetButton" onclick="resetInputs()">Reset Inputs</button>
-                <button type="submit" name="myButton">Copy Inputs</button>
-            </div>
-            <br>
-        </form>
-    </div>
+    <label for="remarks">Remarks / Faults (if any):</label><br>
+    <textarea id="remarks" name="remarks" rows="10" cols="50" style="width: 80%;"></textarea><br><br><br>
+
+    <!-- Button to copy to clipboard -->
+    <button type="submit" style="width: 100%; height: 30px; fill: chartreuse;">Copy ALL inputs to Clipboard</button><br><br>
+
+    <div class="subtitle" style="font-size: 10px;">A project by 6TECH</div>
+</form>
+
 
 </body></html>
