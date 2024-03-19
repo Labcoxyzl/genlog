@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0051)file:///C:/Users/zarky/Downloads/Gen%20Log%205.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Copy Inputs to Clipboard</title>
     <style>
@@ -53,6 +53,8 @@
                 return false;
             }
 
+            if (remarks === "") {remarks = "NIL"}
+            
             // Concatenate values
             var copiedText = "Date: " + date + "\n" +
                 "Vehicle Number: " + vehicleNumber + " MID\n" +
@@ -84,7 +86,7 @@
 <body>
 
 <!-- Title -->
-<div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</div>
+<div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</style></div>
 <div class="subtitle" style="font-size: 15px;">Enter your vehicle details below and copy to clipboard</div>
 <div class="subtitle" style="font-size: 15px;">Refresh page to reset inputs</div><br>
 <br>
@@ -93,43 +95,45 @@
 <form id="dataForm" onsubmit="return copyToClipboard()">
     <!-- Input fields -->
     <label for="date">Date of Check:</label><br>
-    <input type="date" id="date" name="date" required="" style="width: 80%;"><br><br>
+    <input type="date" id="date" name="date" required style="width: 80%;"><br><br>
 
     <label for="vehicleNumber">Vehicle Number:</label><br>
-    <input type="number" id="vehicleNumber" name="vehicleNumber" required="" step="1" min="10000" max="99999" style="width: 80%;"><br><br>
+    <input type="number" id="vehicleNumber" name="vehicleNumber" required step="1" min="10000" max="99999" style="width: 80%;"><br><br>
 
-    <label for="vehicleVariant">Vehicle Variant:</label><br>
-    <select id="vehicleVariant" required="" style="width: 80%;">
+    <label for = "vehicleVariant">Vehicle Variant:</label><br>
+    <select id="vehicleVariant" required style="width: 80%;">
         <option value="CPAG-Warberg">CPAG-Warberg</option>
         <option value="CPAG-Hierra">CPAG-Hierra</option>
         <option value="10 Ton MTV">10 Ton MTV</option>
-        <option value="DSM&#39;s Car">DSM's Car</option>
+        <option value="DSM's Car">DSM's Car</option>
     </select><br><br>
 
     <label for="fe1Expiry">FE1 Expiry Month / Year:</label><br>
-    <input type="month" id="fe1Expiry" name="fe1Expiry" required="" style="width: 80%;"><br><br>
+    <input type="month" id="fe1Expiry" name="fe1Expiry" required style="width: 80%;"><br><br>
 
     <label for="fe2Expiry">FE2 Expiry Month / Year:</label><br>
-    <input type="month" id="fe2Expiry" name="fe2Expiry" required="" style="width: 80%;"><br><br>
+    <input type="month" id="fe2Expiry" name="fe2Expiry" required style="width: 80%;"><br><br>
 
     <label for="startTime">Start Time:</label><br>
-    <input type="time" id="startTime" name="startTime" required="" style="width: 80%;"><br><br>
+    <input type="time" id="startTime" name="startTime" required style="width: 80%;"><br><br>
 
     <label for="startEngineHour">Start Engine Hour:</label><br>
-    <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="10000" required="" style="width: 80%;"><br><br>
+    <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="10000" required style="width: 80%;"><br><br>
 
     <label for="endTime">End Time:</label><br>
-    <input type="time" id="endTime" name="endTime" required="" style="width: 80%;"><br><br>
+    <input type="time" id="endTime" name="endTime" required style="width: 80%;"><br><br>
 
     <label for="endEngineHour">End Engine Hour:</label><br>
-    <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="10000" required="" style="width: 80%;"><br><br>
+    <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="10000" required style="width: 80%;"><br><br>
 
     <label for="polLevel">POL Level:</label><br>
-    <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="3" onchange="updateRangeOutput(&#39;polLevel&#39;, &#39;polLevelOutput&#39;)" required="" style="width: 80%;">
+    <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="3"
+           onchange="updateRangeOutput('polLevel', 'polLevelOutput')" required style="width: 80%;">
     <output id="polLevelOutput">3</output> Bar(s)<br><br>
 
     <label for="batteryVoltage">Battery Voltage:</label><br>
-    <input type="range" id="batteryVoltage" name="batteryVoltage" min="0" max="30" value="27" onchange="updateRangeOutput(&#39;batteryVoltage&#39;, &#39;batteryVoltageOutput&#39;)" required="" style="width: 80%;">
+    <input type="range" id="batteryVoltage" name="batteryVoltage" min="0" max="30" value="27"
+           onchange="updateRangeOutput('batteryVoltage', 'batteryVoltageOutput')" required style="width: 80%;">
     <output id="batteryVoltageOutput">27</output> Volts<br><br>
 
     <label for="remarks">Remarks / Faults (if any):</label><br>
@@ -138,8 +142,9 @@
     <!-- Button to copy to clipboard -->
     <button type="submit" style="width: 100%; height: 30px; fill: chartreuse;">Copy ALL inputs to Clipboard</button><br><br>
 
-    <div class="subtitle" style="font-size: 10px;">A project by 6TECH</div>
+    <div class="subtitle" style="font-size: 10px;">A project by 6TECH</div><br><br>
 </form>
 
-
-</body></html>
+</body>
+<footer><br></footer>
+</html>
