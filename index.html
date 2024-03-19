@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0051)file:///C:/Users/zarky/Downloads/Gen%20Log%205.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Copy Inputs to Clipboard</title>
     <style>
@@ -12,13 +13,40 @@
 
         .subtitle {
             font-weight: bold;
-            text-decoration: wavy; 
+            text-decoration: wavy;
             color: cadetblue;
         }
-        /* old code here */
 
+        /* old code here */
     </style>
     <script>
+        function submitForm() {
+            const formData = new FormData(document.getElementById('dataForm')); // Get form data
+
+            // Send a POST request using fetch API
+            fetch("https://script.google.com/macros/s/AKfycbxWDIX-eqA604ZwfPj7WbU0-5I4lAb1z088Jx2sbYPul-j6sb_XbW1pm2pgOzH9ix-J/exec", {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Form submission failed!');
+                    }
+                })
+                .then(data => {
+                    alert('Form submitted successfully!');
+                    console.log('Response:', data); // Log the response if needed
+                    // Optionally, reset the form after successful submission
+                    // document.getElementById('myForm').reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+        }
+
         function copyToClipboard() {
             // Get input field values
             var date = new Date(document.getElementById("date").value).toLocaleDateString('en-sg', { day: "numeric", month: "long", year: "numeric" });
@@ -34,10 +62,10 @@
             var remarks = document.getElementById("remarks").value;
             var vehicleVariant = document.getElementById("vehicleVariant").value;
 
-            var EngineHourDiff = parseFloat(endEngineHour-startEngineHour).toFixed(1)   //round to 1dp (optional)
+            var EngineHourDiff = parseFloat(endEngineHour - startEngineHour).toFixed(1)   //round to 1dp (optional)
             var startDT = new Date("1/1/1999 " + startTime);                            //arbitrary date to use date difference
             var endDT = new Date("1/1/1999 " + endTime);                                //returns unix time
-            var GenTimeDiff = ((endDT.getTime() - startDT.getTime())/60000).toFixed(1)  //divide by 60*1000 to get minutes
+            var GenTimeDiff = ((endDT.getTime() - startDT.getTime()) / 60000).toFixed(1)  //divide by 60*1000 to get minutes
 
             // Check if end time is ahead of start time
             var startDateTime = new Date(date + " " + startTime);
@@ -52,6 +80,8 @@
                 alert("End Engine Hour must be more than Start Engine Hour.");
                 return false;
             }
+
+            if (remarks === "") { remarks = "NIL" }
 
             // Concatenate values
             var copiedText = "Date: " + date + "\n" +
@@ -68,6 +98,20 @@
                 "Battery Voltage: " + batteryVoltage + " Volts\n\n" +
                 "Remarks / faults (if any): \n--------------------------\n" + remarks;
 
+            var csvText = `${date},
+                           ${vehicleNumber},
+                           ${vehicleVariant},
+                           ${fe1Expiry},
+                           ${fe2Expiry},
+                           ${startTime},
+                           ${startEngineHour},
+                           ${endTime},
+                           ${endEngineHour},
+                           ${EngineHourDiff} Engine Hours in ${GenTimeDiff} Minutes.,
+                           ${polLevel},
+                           ${batteryVoltage},
+                           ${remarks}\n`;
+
             // Copy to clipboard
             navigator.clipboard.writeText(copiedText).then(function () {
                 alert("Copied to clipboard!");
@@ -79,67 +123,100 @@
         function updateRangeOutput(rangeId, outputId) {
             document.getElementById(outputId).value = document.getElementById(rangeId).value;
         }
+
+
+        function devFill() {
+            document.getElementById('date').value = '2024-03-22'
+            document.getElementById('vehicleNumber').value = "12345"
+            document.getElementById('vehicleVariant').value = "DSM's Car"
+            document.getElementById('fe1Expiry').value = "2025-10"
+            document.getElementById('fe2Expiry').value = "2025-10"
+            document.getElementById('startTime').value = "12:30"
+            document.getElementById('startEngineHour').value = "1234"
+            document.getElementById('endTime').value = "13:30"
+            document.getElementById('endEngineHour').value = "1235"
+            document.getElementById('polLevel').value = "6"
+            document.getElementById('batteryVoltage').value = "27"
+            document.getElementById('remarks').value = "aksdjl"
+        }
     </script>
 </head>
+
 <body>
+    <button onclick="devFill()">dev Button</button>
+    <!-- Title -->
+    <div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</style>
+    </div>
+    <div class="subtitle" style="font-size: 15px;">Enter your vehicle details below and copy to clipboard</div>
+    <div class="subtitle" style="font-size: 15px;">Refresh page to reset inputs</div><br>
+    <br>
 
-<!-- Title -->
-<div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</div>
-<div class="subtitle" style="font-size: 15px;">Enter your vehicle details below and copy to clipboard</div>
-<div class="subtitle" style="font-size: 15px;">Refresh page to reset inputs</div><br>
-<br>
+    <!-- Form -->
+    <!-- <form id="dataForm" onsubmit="return copyToClipboard()"> -->
+    <form id="dataForm"
+        action="https://script.google.com/macros/s/AKfycbxWDIX-eqA604ZwfPj7WbU0-5I4lAb1z088Jx2sbYPul-j6sb_XbW1pm2pgOzH9ix-J/exec"
+        method="post">
 
-<!-- Form -->
-<form id="dataForm" onsubmit="return copyToClipboard()">
-    <!-- Input fields -->
-    <label for="date">Date of Check:</label><br>
-    <input type="date" id="date" name="date" required="" style="width: 80%;"><br><br>
+    </form>
+    <form>
+        <!-- Input fields -->
+        <label for="date">Date of Check:</label><br>
+        <input type="date" id="date" name="date" required style="width: 80%;"><br><br>
 
-    <label for="vehicleNumber">Vehicle Number:</label><br>
-    <input type="number" id="vehicleNumber" name="vehicleNumber" required="" step="1" min="10000" max="99999" style="width: 80%;"><br><br>
+        <label for="vehicleNumber">Vehicle Number:</label><br>
+        <input type="number" id="vehicleNumber" name="vehicleNumber" required step="1" min="10000" max="99999"
+            style="width: 80%;"><br><br>
 
-    <label for="vehicleVariant">Vehicle Variant:</label><br>
-    <select id="vehicleVariant" required="" style="width: 80%;">
-        <option value="CPAG-Warberg">CPAG-Warberg</option>
-        <option value="CPAG-Hierra">CPAG-Hierra</option>
-        <option value="10 Ton MTV">10 Ton MTV</option>
-        <option value="DSM&#39;s Car">DSM's Car</option>
-    </select><br><br>
+        <label for="vehicleVariant">Vehicle Variant:</label><br>
+        <select id="vehicleVariant" required style="width: 80%;">
+            <option value="CPAG-Warberg">CPAG-Warberg</option>
+            <option value="CPAG-Hierra">CPAG-Hierra</option>
+            <option value="10 Ton MTV">10 Ton MTV</option>
+            <option value="DSM's Car">DSM's Car</option>
+        </select><br><br>
 
-    <label for="fe1Expiry">FE1 Expiry Month / Year:</label><br>
-    <input type="month" id="fe1Expiry" name="fe1Expiry" required="" style="width: 80%;"><br><br>
+        <label for="fe1Expiry">FE1 Expiry Month / Year:</label><br>
+        <input type="month" id="fe1Expiry" name="fe1Expiry" required style="width: 80%;"><br><br>
 
-    <label for="fe2Expiry">FE2 Expiry Month / Year:</label><br>
-    <input type="month" id="fe2Expiry" name="fe2Expiry" required="" style="width: 80%;"><br><br>
+        <label for="fe2Expiry">FE2 Expiry Month / Year:</label><br>
+        <input type="month" id="fe2Expiry" name="fe2Expiry" required style="width: 80%;"><br><br>
 
-    <label for="startTime">Start Time:</label><br>
-    <input type="time" id="startTime" name="startTime" required="" style="width: 80%;"><br><br>
+        <label for="startTime">Start Time:</label><br>
+        <input type="time" id="startTime" name="startTime" required style="width: 80%;"><br><br>
 
-    <label for="startEngineHour">Start Engine Hour:</label><br>
-    <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="10000" required="" style="width: 80%;"><br><br>
+        <label for="startEngineHour">Start Engine Hour:</label><br>
+        <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="10000" required
+            style="width: 80%;"><br><br>
 
-    <label for="endTime">End Time:</label><br>
-    <input type="time" id="endTime" name="endTime" required="" style="width: 80%;"><br><br>
+        <label for="endTime">End Time:</label><br>
+        <input type="time" id="endTime" name="endTime" required style="width: 80%;"><br><br>
 
-    <label for="endEngineHour">End Engine Hour:</label><br>
-    <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="10000" required="" style="width: 80%;"><br><br>
+        <label for="endEngineHour">End Engine Hour:</label><br>
+        <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="10000" required
+            style="width: 80%;"><br><br>
 
-    <label for="polLevel">POL Level:</label><br>
-    <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="3" onchange="updateRangeOutput(&#39;polLevel&#39;, &#39;polLevelOutput&#39;)" required="" style="width: 80%;">
-    <output id="polLevelOutput">3</output> Bar(s)<br><br>
+        <label for="polLevel">POL Level:</label><br>
+        <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="0"
+            onchange="updateRangeOutput('polLevel', 'polLevelOutput')" required style="width: 80%;">
+        <output id="polLevelOutput">0</output> Bar(s)<br><br>
 
-    <label for="batteryVoltage">Battery Voltage:</label><br>
-    <input type="range" id="batteryVoltage" name="batteryVoltage" min="0" max="30" value="27" onchange="updateRangeOutput(&#39;batteryVoltage&#39;, &#39;batteryVoltageOutput&#39;)" required="" style="width: 80%;">
-    <output id="batteryVoltageOutput">27</output> Volts<br><br>
+        <label for="batteryVoltage">Battery Voltage:</label><br>
+        <input type="range" id="batteryVoltage" name="batteryVoltage" min="0" max="30" value="0"
+            onchange="updateRangeOutput('batteryVoltage', 'batteryVoltageOutput')" required style="width: 80%;">
+        <output id="batteryVoltageOutput">0</output> Volts<br><br>
 
-    <label for="remarks">Remarks / Faults (if any):</label><br>
-    <textarea id="remarks" name="remarks" rows="10" cols="50" style="width: 80%;"></textarea><br><br><br>
+        <label for="remarks">Remarks / Faults (if any):</label><br>
+        <textarea id="remarks" name="remarks" rows="10" cols="50" style="width: 80%;"></textarea><br><br><br>
 
-    <!-- Button to copy to clipboard -->
-    <button type="submit" style="width: 100%; height: 30px; fill: chartreuse;">Copy ALL inputs to Clipboard</button><br><br>
+        <!-- Button to copy to clipboard -->
+        <button type="submit" style="width: 100%; height: 30px; fill: chartreuse;">Copy ALL inputs to
+            Clipboard</button><br><br>
+            <button type="button" onclick="submitForm()">Submit</button>
 
-    <div class="subtitle" style="font-size: 10px;">A project by 6TECH</div>
-</form>
+        <div class="subtitle" style="font-size: 10px;">A project by 6TECH</div><br><br>
+    </form>
 
+</body>
+<footer><br></footer>
 
-</body></html>
+</html>
