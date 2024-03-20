@@ -124,7 +124,7 @@
         }
 
         function updateRangeOutput(rangeId, outputId) {
-            document.getElementById(outputId).value = document.getElementById(rangeId).value;
+            document.getElementById(outputId).innerText = document.getElementById(rangeId).value;
         }
 
 
@@ -183,15 +183,17 @@
         <input type="time" id="startTime" name="startTime" required style="width: 80%;"><br><br>
 
         <label for="startEngineHour">Start Engine Hour:</label><br>
-        <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="10000" required
-            style="width: 80%;"><br><br>
+        <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="9999.9" required
+            style="width: 80%;" oninvalid="this.setCustomValidity('Engine Hour must be under 10000')"
+            oninput="this.setCustomValidity('')"><br><br>
 
         <label for="endTime">End Time:</label><br>
         <input type="time" id="endTime" name="endTime" required style="width: 80%;"><br><br>
 
         <label for="endEngineHour">End Engine Hour:</label><br>
-        <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="10000" required
-            style="width: 80%;"><br><br>
+        <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="9999.9" required
+            style="width: 80%;" oninvalid="this.setCustomValidity('Engine Hour must be under 10000')"
+            oninput="this.setCustomValidity('')"><br><br>
 
         <label for="polLevel">POL Level:</label><br>
         <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="0"
