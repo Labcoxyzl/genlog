@@ -16,26 +16,15 @@
             text-decoration: wavy;
             color: cadetblue;
         }
-
-        /* old code here */
     </style>
     <script>
         function submitForm() {
-            const formData = new FormData(document.getElementById('dataForm')); // Get form data
-
-            // Send a POST request using fetch API
-            fetch(URL, {
-
-            })
-
+            var formdata = copyToClipboard(); 
+            console.log(formdata)
             fetch("https://script.google.com/macros/s/AKfycbxWDIX-eqA604ZwfPj7WbU0-5I4lAb1z088Jx2sbYPul-j6sb_XbW1pm2pgOzH9ix-J/exec", {
                 redirect: "follow",
                 method: "POST",
-                body: formData
-                // body: JSON.stringify(formData),
-                // headers: {
-                //     "Content-Type": "text/plain;charset=utf-8",
-                // }
+                body: JSON.stringify(formdata)
             })
                 .then(response => {
                     if (response.ok) {
@@ -46,9 +35,8 @@
                 })
                 .then(data => {
                     alert('Form submitted successfully!');
-                    console.log('Response:', data); // Log the response if needed
-                    // Optionally, reset the form after successful submission
-                    // document.getElementById('myForm').reset();
+                    console.log('Response:', data); // Log response
+                    document.getElementById('dataForm').reset();
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -107,26 +95,28 @@
                 "Battery Voltage: " + batteryVoltage + " Volts\n\n" +
                 "Remarks / faults (if any): \n--------------------------\n" + remarks;
 
-            var csvText = `${date},
-                           ${vehicleNumber},
-                           ${vehicleVariant},
-                           ${fe1Expiry},
-                           ${fe2Expiry},
-                           ${startTime},
-                           ${startEngineHour},
-                           ${endTime},
-                           ${endEngineHour},
-                           ${EngineHourDiff} Engine Hours in ${GenTimeDiff} Minutes.,
-                           ${polLevel},
-                           ${batteryVoltage},
-                           ${remarks}\n`;
-
             // Copy to clipboard
             navigator.clipboard.writeText(copiedText).then(function () {
                 alert("Copied to clipboard!");
             }, function () {
                 alert("Failed to copy to clipboard!");
             });
+            return {
+                    date: date,
+                    vehicleNumber: vehicleNumber,
+                    vehicleVariant: vehicleVariant,
+                    fe1Expiry: fe1Expiry,
+                    fe2Expiry: fe2Expiry,
+                    startTime: startTime,
+                    startEngineHour: startEngineHour,
+                    endTime: endTime,
+                    endEngineHour: endEngineHour,
+                    EngineHourDiff: EngineHourDiff,
+                    GenTimeDiff: GenTimeDiff,
+                    polLevel: polLevel,
+                    batteryVoltage: batteryVoltage,
+                    remarks: remarks
+                }
         }
 
         function updateRangeOutput(rangeId, outputId) {
@@ -161,13 +151,7 @@
     <br>
 
     <!-- Form -->
-    <!-- <form id="dataForm" onsubmit="return copyToClipboard()"> -->
-    <form id="dataForm"
-        action="https://script.google.com/macros/s/AKfycbxWDIX-eqA604ZwfPj7WbU0-5I4lAb1z088Jx2sbYPul-j6sb_XbW1pm2pgOzH9ix-J/exec"
-        method="post">
-
-    </form>
-    <form>
+    <form id="dataForm" onsubmit="return copyToClipboard()">
         <!-- Input fields -->
         <label for="date">Date of Check:</label><br>
         <input type="date" id="date" name="date" required style="width: 80%;"><br><br>
@@ -220,7 +204,8 @@
         <!-- Button to copy to clipboard -->
         <button type="submit" style="width: 100%; height: 30px; fill: chartreuse;">Copy ALL inputs to
             Clipboard</button><br><br>
-        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="button" style="width: 100%; height: 30px; fill: chartreuse;"
+            onclick="submitForm()">Submit</button>
 
         <div class="subtitle" style="font-size: 10px;">A project by 6TECH</div><br><br>
     </form>
