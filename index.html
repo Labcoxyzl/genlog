@@ -19,8 +19,11 @@
     </style>
     <script>
         function submitForm() {
+            if(! $('#dataForm')[0].checkValidity()){
+                $('#dataForm')[0].reportValidity() //Show HTML5 Built-In Validation
+                return false;
+            }
             var formdata = copyToClipboard(); 
-            console.log(formdata)
             fetch("https://script.google.com/macros/s/AKfycbxWDIX-eqA604ZwfPj7WbU0-5I4lAb1z088Jx2sbYPul-j6sb_XbW1pm2pgOzH9ix-J/exec", {
                 redirect: "follow",
                 method: "POST",
