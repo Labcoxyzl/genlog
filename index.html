@@ -20,11 +20,11 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         function submitForm() {
-            if(! $('#dataForm')[0].checkValidity()){
+            if (!$('#dataForm')[0].checkValidity()) {
                 $('#dataForm')[0].reportValidity() //Show HTML5 Built-In Validation
                 return false;
             }
-            var formdata = copyToClipboard(); 
+            var formdata = copyToClipboard();
             fetch("https://script.google.com/macros/s/AKfycbxWDIX-eqA604ZwfPj7WbU0-5I4lAb1z088Jx2sbYPul-j6sb_XbW1pm2pgOzH9ix-J/exec", {
                 redirect: "follow",
                 method: "POST",
@@ -106,21 +106,21 @@
                 alert("Failed to copy to clipboard!");
             });
             return {
-                    date: date,
-                    vehicleNumber: vehicleNumber,
-                    vehicleVariant: vehicleVariant,
-                    fe1Expiry: fe1Expiry,
-                    fe2Expiry: fe2Expiry,
-                    startTime: startTime,
-                    startEngineHour: startEngineHour,
-                    endTime: endTime,
-                    endEngineHour: endEngineHour,
-                    EngineHourDiff: EngineHourDiff,
-                    GenTimeDiff: GenTimeDiff,
-                    polLevel: polLevel,
-                    batteryVoltage: batteryVoltage,
-                    remarks: remarks
-                }
+                date: date,
+                vehicleNumber: vehicleNumber,
+                vehicleVariant: vehicleVariant,
+                fe1Expiry: fe1Expiry,
+                fe2Expiry: fe2Expiry,
+                startTime: startTime,
+                startEngineHour: startEngineHour,
+                endTime: endTime,
+                endEngineHour: endEngineHour,
+                EngineHourDiff: EngineHourDiff,
+                GenTimeDiff: GenTimeDiff,
+                polLevel: polLevel,
+                batteryVoltage: batteryVoltage,
+                remarks: remarks
+            }
         }
 
         function updateRangeOutput(rangeId, outputId) {
@@ -162,7 +162,8 @@
 
         <label for="vehicleNumber">Vehicle Number:</label><br>
         <input type="number" id="vehicleNumber" name="vehicleNumber" required step="1" min="10000" max="99999"
-            style="width: 80%;"><br><br>
+            style="width: 80%;" oninvalid="this.setCustomValidity('Vehicle Number must be 5 digits long.')"
+            oninput="this.setCustomValidity('')"><br><br>
 
         <label for="vehicleVariant">Vehicle Variant:</label><br>
         <select id="vehicleVariant" required style="width: 80%;">
