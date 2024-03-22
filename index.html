@@ -140,19 +140,20 @@
             document.getElementById('endEngineHour').value = "1235"
             document.getElementById('polLevel').value = "6"
             document.getElementById('batteryVoltage').value = "27"
-            document.getElementById('remarks').value = "aksdjl"
+            document.getElementById('remarks').value = "[THIS IS A SAMPLE SUBMISSION]"
         }
     </script>
 </head>
 
 <body>
-    <button onclick="devFill()">dev Button</button>
+    <button onclick="devFill()" style="visibility: hidden;">dev Button</button>
     <!-- Title -->
     <div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</style>
     </div>
     <div class="subtitle" style="font-size: 15px;">Enter your vehicle details below and copy to clipboard</div>
-    <div class="subtitle" style="font-size: 15px;">Refresh page to reset inputs</div><br>
+    <div class="subtitle" style="font-size: 15px;">Refresh page to reset inputs</div>
     <div class="subtitle" style="font-size: 15px;">A successful log submission will copy to clipboard AND reset inputs</div><br>
+    <div class="subtitle" style="font-size: 15px;">For issues/feedback, contact me via <a href="https://t.me/labcoxyzl" target="_blank">Telegram</a></div>
     <br>
 
     <!-- Form -->
@@ -217,7 +218,6 @@
         <br><br>
         <div class="subtitle" style="font-size: 10px;">A project by 6ACB</div><br><br>
     </form>
-
 </body>
 <footer><br></footer>
 
