@@ -185,6 +185,11 @@
             document.getElementById('remarks').value = "[THIS IS A SAMPLE SUBMISSION]"
         }
 
+        function resetForm() {
+            document.getElementById('dataForm').reset();
+            localStorage.clear();
+        }
+
         // Save Form to Local Stoage
         window.addEventListener("DOMContentLoaded", (event) => {
             const form = document.getElementById('dataForm');
@@ -205,7 +210,6 @@
     <div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</style>
     </div>
     <div class="subtitle" style="font-size: 15px;">Enter your vehicle details below and copy to clipboard</div>
-    <div class="subtitle" style="font-size: 15px;">Refresh page to reset inputs</div>
     <div class="subtitle" style="font-size: 15px;">A successful log submission will copy to clipboard AND reset inputs
     </div><br>
     <div class="subtitle" style="font-size: 15px;">For issues/feedback, contact me via <a href="https://t.me/labcoxyzl"
@@ -265,10 +269,14 @@
         <label for="remarks">Remarks / Faults (if any):</label><br>
         <textarea id="remarks" name="remarks" rows="10" cols="50" style="width: 80%;"></textarea><br><br><br>
 
-        <!-- Button to copy to clipboard -->
+        <!-- Reset Form-->
+        <button type="button" style="width: 100%; height: 30px; fill: chartreuse;" onclick="resetForm()">RESET
+            FORM</button><br><br>
+        <!-- Copy to clipboard -->
         <button type="button" onclick="copyToClipboard()" style="width: 100%; height: 30px; fill: chartreuse;">Copy ALL
             inputs to
             Clipboard</button><br><br>
+        <!-- Submit -->
         <button type="button" style="width: 100%; height: 30px; fill: chartreuse;"
             onclick="submitForm()">Submit</button>
         <br><br>
