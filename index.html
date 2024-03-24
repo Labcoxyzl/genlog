@@ -185,6 +185,7 @@
             document.getElementById('remarks').value = "[THIS IS A SAMPLE SUBMISSION]"
         }
 
+        // Save Form to Local Stoage
         window.addEventListener("DOMContentLoaded", (event) => {
             const form = document.getElementById('dataForm');
             function saveForm() {
@@ -195,10 +196,6 @@
                 form.addEventListener('input', saveForm);
             }
         });
-        // Save Form to Local Stoage
-
-
-
     </script>
 </head>
 
@@ -231,7 +228,6 @@
             <option value="CPAG-Warberg">CPAG-Warberg</option>
             <option value="CPAG-Hierra">CPAG-Hierra</option>
             <option value="10 Ton MTV">10 Ton MTV</option>
-            <option value="DSM's Car">DSM's Car</option>
         </select><br><br>
 
         <label for="fe1Expiry">FE1 Expiry Month / Year:</label><br>
