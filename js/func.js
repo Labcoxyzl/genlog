@@ -195,6 +195,8 @@ function devFill() {
 function resetForm() {
     document.getElementById('dataForm').reset();
     localStorage.clear();
+    updateRangeOutput('polLevel', 'polLevelOutput')
+    updateRangeOutput('batteryVoltage', 'batteryVoltageOutput')
 }
 
 // Save Form to Local Stoage
