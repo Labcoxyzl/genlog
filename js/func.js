@@ -15,6 +15,8 @@ function loadForm() {
         document.getElementById('polLevel').value = formdata.polLevel;
         document.getElementById('batteryVoltage').value = formdata.batteryVoltage;
         document.getElementById('remarks').value = formdata.remarks;
+        updateRangeOutput('polLevel', 'polLevelOutput');
+        updateRangeOutput('batteryVoltage', 'batteryVoltageOutput');
     }
 }
 window.onload = loadForm;
