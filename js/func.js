@@ -21,6 +21,7 @@ window.onload = loadForm;
 
 function submitForm() {
     var formdata = copyToClipboard();
+    // console.log(formdata)
     if (!!formdata) { //If validation passes 
         fetch("https://script.google.com/macros/s/AKfycbxWDIX-eqA604ZwfPj7WbU0-5I4lAb1z088Jx2sbYPul-j6sb_XbW1pm2pgOzH9ix-J/exec", {
             redirect: "follow",
@@ -150,7 +151,22 @@ function copyToClipboard() {
         }, function () {
             showToast("Failed to copy to clipboard!", "error", 5000);
         });
-        return true
+        return {
+            date,
+            vehicleNumber,
+            vehicleVariant,
+            fe1Expiry,
+            fe2Expiry,
+            startTime,
+            startEngineHour,
+            endTime,
+            endEngineHour,
+            EngineHourDiff,
+            GenTimeDiff,
+            polLevel,
+            batteryVoltage,
+            remarks
+        }
     }
 
 }
@@ -162,7 +178,7 @@ function updateRangeOutput(rangeId, outputId) {
 function devFill() {
     document.getElementById('date').value = '2024-03-22'
     document.getElementById('vehicleNumber').value = "12345"
-    document.getElementById('vehicleVariant').value = "DSM's Car"
+    document.getElementById('vehicleVariant').value = "CPAG-Warberg"
     document.getElementById('fe1Expiry').value = "2025-10"
     document.getElementById('fe2Expiry').value = "2025-10"
     document.getElementById('startTime').value = "12:30"
