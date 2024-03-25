@@ -5,35 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>6AMB Vehicle E-Logbook</title>
+    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/toast.css">
-    <style>
-        .title {
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        .subtitle {
-            font-weight: bold;
-            text-decoration: wavy;
-            color: cadetblue;
-        }
-    </style>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="./js/func.js"></script>
     <script src="./js/toast.js"></script>
+
+
 </head>
 
 <body>
 
-    <button onclick="devFill()">dev Button</button>
+    <!-- <button onclick="devFill()">dev Button</button> -->
     <!-- Title -->
     <div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</style>
     </div>
-    <div class="subtitle" style="font-size: 15px;">Enter your vehicle details below</div>
+    <div class="subtitle" style="font-size: 15px;">Enter your vehicle details below and copy to clipboard</div>
     <div class="subtitle" style="font-size: 15px;">A successful log submission will copy to clipboard AND reset inputs</div>
-    <div class="subtitle" style="font-size: 15px;">Try the new UI <a href="newui.html">here</a> (beta)</div>
+    <div class="subtitle" style="font-size: 15px;">Return to classic UI <a href="index.html">here</a></div>
     <br>
     <div class="subtitle" style="font-size: 15px;">For issues/feedback, contact me via <a href="https://t.me/labcoxyzl"
             target="_blank">Telegram</a></div>
@@ -45,76 +36,77 @@
     <!-- Form -->
     <form id="dataForm" onsubmit="return copyToClipboard()">
         <!-- Input fields -->
-        <label for="date">Date of Check:</label><br>
+        <label for="date">Date of Check:</label>
         <input type="date" id="date" name="date" required style="width: 80%;"
             oninvalid="this.setCustomValidity('Please fill the date of check.')"
-            oninput="this.setCustomValidity('')"><br><br>
+            oninput="this.setCustomValidity('')"><br>
 
-        <label for="vehicleNumber">Vehicle Number:</label><br>
+        <label for="vehicleNumber">Vehicle Number:</label>
         <input type="number" id="vehicleNumber" name="vehicleNumber" required step="1" min="10000" max="99999"
             style="width: 80%;" oninvalid="this.setCustomValidity('Vehicle Number must be 5 digits long.')"
-            oninput="this.setCustomValidity('')"><br><br>
+            oninput="this.setCustomValidity('')"><br>
 
-        <label for="vehicleVariant">Vehicle Variant:</label><br>
+        <label for="vehicleVariant">Vehicle Variant:</label>
         <select id="vehicleVariant" required style="width: 80%;"
             oninvalid="this.setCustomValidity('Please select a vehicle variant.')" oninput="this.setCustomValidity('')">
             <option value="" disabled selected>*Select Variant</option>
             <option value="CPAG-Warberg">CPAG-Warberg</option>
             <option value="CPAG-Hierra">CPAG-Hierra</option>
             <option value="10 Ton MTV">10 Ton MTV</option>
-        </select><br><br>
+        </select><br>
 
-        <label for="fe1Expiry">FE1 Expiry Month / Year:</label><br>
+        <label for="fe1Expiry">FE1 Expiry Month / Year:</label>
         <input type="month" id="fe1Expiry" name="fe1Expiry" required style="width: 80%;"
             oninvalid="this.setCustomValidity('Please enter a valid FE1 Expiry Date.')"
-            oninput="this.setCustomValidity('')"><br><br>
+            oninput="this.setCustomValidity('')"><br>
 
-        <label for="fe2Expiry">FE2 Expiry Month / Year:</label><br>
+        <label for="fe2Expiry">FE2 Expiry Month / Year:</label>
         <input type="month" id="fe2Expiry" name="fe2Expiry" required style="width: 80%;"
             oninvalid="this.setCustomValidity('Please enter a valid FE2 Expiry Date.')"
-            oninput="this.setCustomValidity('')"><br><br>
+            oninput="this.setCustomValidity('')"><br>
 
-        <label for="startTime">Start Time:</label><br>
+        <label for="startTime">Start Time:</label>
         <input type="time" id="startTime" name="startTime" required style="width: 80%;"
             oninvalid="this.setCustomValidity('Please enter a valid start time.')"
-            oninput="this.setCustomValidity('')"><br><br>
+            oninput="this.setCustomValidity('')"><br>
 
-        <label for="startEngineHour">Start Engine Hour:</label><br>
+        <label for="startEngineHour">Start Engine Hour:</label>
         <input type="number" id="startEngineHour" name="startEngineHour" step="0.1" min="0" max="9999.9" required
             style="width: 80%;" oninvalid="this.setCustomValidity('Engine Hour must be under 10000')"
-            oninput="this.setCustomValidity('')"><br><br>
+            oninput="this.setCustomValidity('')"><br>
 
-        <label for="endTime">End Time:</label><br>
-        <input type="time" id="endTime" name="endTime" required style="width: 80%;"><br><br>
+        <label for="endTime">End Time:</label>
+        <input type="time" id="endTime" name="endTime" required style="width: 80%;"
+            oninvalid="this.setCustomValidity('Please enter a valid end time.')"
+            oninput="this.setCustomValidity('')"><br>
 
-        <label for="endEngineHour">End Engine Hour:</label><br>
+        <label for="endEngineHour">End Engine Hour:</label>
         <input type="number" id="endEngineHour" name="endEngineHour" step="0.1" min="0" max="9999.9" required
             style="width: 80%;" oninvalid="this.setCustomValidity('Engine Hour must be under 10000')"
-            oninput="this.setCustomValidity('')"><br><br>
+            oninput="this.setCustomValidity('')"><br>
 
-        <label for="polLevel">POL Level:</label><br>
+        <label for="polLevel">POL Level:</label>
         <input type="range" id="polLevel" name="polLevel" min="0" max="6" value="0"
-            onchange="updateRangeOutput('polLevel', 'polLevelOutput')" required style="width: 80%;">
+            onchange="updateRangeOutput('polLevel', 'polLevelOutput')" required style="width: 80%">
         <output id="polLevelOutput">0</output> Bar(s)<br><br>
 
-        <label for="batteryVoltage">Battery Voltage:</label><br>
+        <label for="batteryVoltage">Battery Voltage:</label>
         <input type="range" id="batteryVoltage" name="batteryVoltage" min="0" max="30" value="0"
             onchange="updateRangeOutput('batteryVoltage', 'batteryVoltageOutput')" required style="width: 80%;">
         <output id="batteryVoltageOutput">0</output> Volts<br><br>
 
-        <label for="remarks">Remarks / Faults (if any):</label><br>
+        <label for="remarks">Remarks / Faults (if any):</label>
         <textarea id="remarks" name="remarks" rows="10" cols="50" style="width: 80%;"></textarea><br><br><br>
 
         <!-- Reset Form-->
-        <button type="button" style="width: 100%; height: 30px; fill: chartreuse;" onclick="resetForm()">RESET
+        <button type="button" style="width: 100%; height: 30px;" onclick="resetForm()">RESET
             FORM</button><br><br>
         <!-- Copy to clipboard -->
-        <button type="button" onclick="copyToClipboard()" style="width: 100%; height: 30px; fill: chartreuse;">Copy ALL
+        <button type="button" onclick="copyToClipboard()" style="width: 100%; height: 30px;">Copy ALL
             inputs to
             Clipboard</button><br><br>
         <!-- Submit -->
-        <button type="button" style="width: 100%; height: 30px; fill: chartreuse;"
-            onclick="submitForm()">Submit</button>
+        <button type="button" style="width: 100%; height: 30px;;" onclick="submitForm()">Submit</button>
         <br><br>
         <div class="subtitle" style="font-size: 10px;">A project by 6ACB</div><br><br>
     </form>
