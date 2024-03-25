@@ -23,7 +23,8 @@
     <div class="title" style="font-size: 20px;">Welcome to 6AMB Vehicle E-Logbook!</style>
     </div>
     <div class="subtitle" style="font-size: 15px;">Enter your vehicle details below and copy to clipboard</div>
-    <div class="subtitle" style="font-size: 15px;">A successful log submission will copy to clipboard AND reset inputs</div>
+    <div class="subtitle" style="font-size: 15px;">A successful log submission will copy to clipboard AND reset inputs
+    </div>
     <div class="subtitle" style="font-size: 15px;">Return to classic UI <a href="index.html">here</a></div>
     <br>
     <div class="subtitle" style="font-size: 15px;">For issues/feedback, contact me via <a href="https://t.me/labcoxyzl"
@@ -96,17 +97,23 @@
         <output id="batteryVoltageOutput">0</output> Volts<br><br>
 
         <label for="remarks">Remarks / Faults (if any):</label>
-        <textarea id="remarks" name="remarks" rows="10" cols="50" style="width: 80%;"></textarea><br><br><br>
-
+        <textarea id="remarks" name="remarks" rows="10" cols="50" style="width: 80%;"></textarea><br>
         <!-- Reset Form-->
-        <button type="button" style="width: 100%; height: 30px;" onclick="resetForm()">RESET
-            FORM</button><br>
-        <!-- Copy to clipboard -->
-        <button type="button" onclick="copyToClipboard()" style="width: 100%; height: 30px;">Copy ALL
-            inputs to
-            Clipboard</button><br>
+        <button type="button" style="width: 50%; height: 50%;" onclick="resetForm()">Reset Form</button>
         <!-- Submit -->
-        <button type="button" style="width: 100%; height: 30px;;" onclick="submitForm()">Submit</button>
+        <button type="button" style="width: 50%; height: 50%;" onclick="submitForm()">Submit Form</button>
+        <!-- Copy to clipboard -->
+        <button type="button" onclick="copyToClipboard()" style="width: 50%; height: 50%;">Copy to Clipboard</button>
+        <div class="buttondiv">
+            <!-- Reset Form-->
+            <button type="button" style="width: 30%; height: 50%;" onclick="resetForm()">Reset Form</button>
+            <!-- Submit -->
+            <button type="button" style="width: auto; height: 70px" onclick="submitForm()">Submit Form</button>
+            <!-- Copy to clipboard -->
+            <button type="button" onclick="copyToClipboard()" style="width: 30%; height: 50%;">Copy to
+                Clipboard</button>
+        </div>
+
         <br>
         <div class="subtitle" style="font-size: 10px;">A project by 6ACB</div><br><br>
     </form>
